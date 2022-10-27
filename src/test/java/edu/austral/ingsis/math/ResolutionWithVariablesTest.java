@@ -1,6 +1,13 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.composite.Function;
+import edu.austral.ingsis.math.composite.Value;
+import edu.austral.ingsis.math.composite.Variable;
+import edu.austral.ingsis.math.composite.operations.*;
+import edu.austral.ingsis.math.composite.operations.Module;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,7 +20,8 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction1() {
-        final Double result = 4d;
+        final Function f = new Sum(new Value(1d), new Variable("x"));
+        final Double result = f.calculate(Map.of("x",3d));
 
         assertThat(result, equalTo(4d));
     }
@@ -23,7 +31,8 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction2() {
-        final Double result = 3d;
+        final Function f = new Div(new Value(12.0),new Variable("div"));
+        final Double result = f.calculate(Map.of("div",4d));
 
         assertThat(result, equalTo(3d));
     }
@@ -33,7 +42,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction3() {
-        final Double result = 12d;
+        final Function div = new Div(new Value(9.0), new Variable("x"));
+        final Function f = new Mult(new ParenthsisOperand(div), new Variable("y"));
+        final Double result = f.calculate(Map.of("x",3d,"y",4d));
 
         assertThat(result, equalTo(12d));
     }
@@ -43,7 +54,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction4() {
-        final Double result = 27d;
+        final Function div = new Div(new Value(27.0), new Variable("a"));
+        final Function f = new Pow(new ParenthsisOperand(div), new Variable("b"));
+        final Double result = f.calculate(Map.of("a",9d,"b",3d));
 
         assertThat(result, equalTo(27d));
     }
@@ -53,7 +66,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction5() {
-        final Double result = 6d;
+        final Function div = new Div(new Value(1.0), new Value(2.0));
+        final Function f = new Pow(new Variable("z"),new ParenthsisOperand(div));
+        final Double result = f.calculate(Map.of("z",36d));
 
         assertThat(result, equalTo(6d));
     }
@@ -63,17 +78,8 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction6() {
-        final Double result = 0d;
-
-        assertThat(result, equalTo(0d));
-    }
-
-    /**
-     * Case |value| - 8 where value = 8
-     */
-    @Test
-    public void shouldResolveFunction7() {
-        final Double result = 0d;
+        final Function f = new Sub(new Module(new Variable("value")), new Value(8.0));
+        final Double result = f.calculate(Map.of("value",8d));
 
         assertThat(result, equalTo(0d));
     }
@@ -83,7 +89,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction8() {
-        final Double result = 24d;
+        final Function sub = new Sub(new Value(5.0), new Variable("i"));
+        final Function f = new Mult(sub, new Value(8.0));
+        final Double result = f.calculate(Map.of("i",2d));
 
         assertThat(result, equalTo(24d));
     }

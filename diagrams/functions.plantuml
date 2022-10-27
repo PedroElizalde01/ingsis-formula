@@ -1,0 +1,94 @@
+@startuml
+interface Function{
+    toString(): string
+    calculate(Map<string, double> map): double
+    listVariable(): List<String>
+}
+
+class Value{
+    - double: value
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Variable{
+    - string: variable
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Sum{
+    - Function: f1
+    - Function: f2
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Sub{
+    - Function: f1
+    - Function: f2
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Mult{
+    - Function: f1
+    - Function: f2
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Div{
+    - Function: f1
+    - Function: f2
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Pow{
+    - Function: f1
+    - Function: f2
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Module{
+    - Function: f1
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+class Parenthesis{
+    - Function: f1
+    + toString(): string
+    + calculate(Map<string, double> map): double
+    + listVariable(): List<String>
+}
+
+Function <.. Value
+Function <.. Variable
+
+Sum ..> Function
+Sum --> Function
+Sub ..> Function
+Sub --> Function
+Mult ..> Function
+Mult --> Function
+Div ..> Function
+Div --> Function
+Pow ..> Function
+Pow --> Function
+Module ..> Function
+Module --> Function
+Parenthesis ..> Function
+Parenthesis --> Function
+
+@enduml
